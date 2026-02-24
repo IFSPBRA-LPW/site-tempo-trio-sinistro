@@ -1,0 +1,13 @@
+h1{
+    color:#FFFFFF;
+    font-family: inter;
+}
+
+#principal{
+    display: flex;
+    justify-content: center;
+}
+
+body{
+    background-color: #070B34;
+}
