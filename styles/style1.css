@@ -11,7 +11,10 @@ h1{
 body{
     background-color: #070B34;
 }
-
+.logo{
+    font-weight:600;
+    font-size:18px;
+}
 section{
     border: 1px solid yellow;
     display: flex;
@@ -19,6 +22,16 @@ section{
     justify-content: space-around;
 }
 
+.container{
+display:flex;
+justify-content:center;
+gap:30px;
+}
+
+#yes{
+    display: flex;
+    flex-direction: column;
+}
 nav{
     color: #FFFFFF;
     font-family: inter;
@@ -37,12 +50,26 @@ nav{
     border-radius: 5px;
     color: #FFFFFF;
 }
-div{
+
+.wind{
+    width: 70px;
     display: flex;
     flex-direction: row;
     background-color: rgb(61, 59, 78);
     color: #FFFFFF;
 }
+
 p{
     color: #FFFFFF;
+}
+div{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(9, 255, 0);
+    color: aliceblue;
+}
+#geral{
+    display: flex;
+    flex-direction: row ;
+    width: 300px;
 }

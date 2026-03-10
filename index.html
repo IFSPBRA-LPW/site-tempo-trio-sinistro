@@ -12,11 +12,14 @@
 <body>
     <header>
         <nav>
-            <p>Weather Now</p>
+            <p class="logo">Weather Now</p>
             <select class="units">
-                <option value="opcao1">Units</option>
-                <option value="opcao2">2</option>
+                <option>Units</option>
+                <option>Celsius</option>
+                <option>Fahrenheit</option>
+                <option>Kelvin</option>
             </select>
+
         </nav>
     </header>
     <main>
@@ -29,26 +32,61 @@
                 <button type="submit">Pesquisar</button>
             </form>
         </section>
-        <section>
+        <section class="container"></section>
+    
+        <section >
             <div>Feels Like</div>
             <div>Humidity</div>
             <div>Wind</div>
             <div>Precipitation</div>
         </section>
-        <section>
+        <section id="yes">
             <div>
                 <p>Daily forecast</p>
+           
+            <div class="ladoesquerdo">
+
+                <div class="caixinha">
+
+                    <div class="climainfo">
+
+                        <h2>Berlin, Germany</h2>
+
+                        <p>Tuesday, Aug 5, 2025</p>
+
+                    </div>
             </div>
-            <div>
-                <div>Wind</div>
-                <div>Wind</div>
-                <div>Wind</div>
-                <div>Wind</div>
-                <div>Wind</div>
-                <div>Wind</div>
-                <div>Wind</div>
+             <div class="temperature">
+        ☀ 20°
             </div>
-        </section>
+
+            </div>
+
+            
+             <div>
+                <p>Hourly forecast</p>
+                <select class="units">
+                    <option value="opcao1">Tuesday</option>
+                    <option value="opcao7">Monday</option>
+                    <option value="opcao2">Wednesday</option>
+                    <option value="opcao3">Thursday</option>
+                    <option value="opcao4">Friday</option>
+                    <option value="opcao5">Saturday</option>
+                    <option value="opcao6">Sunday</option>
+                </select>
+            </div>
+            <div class="wind">
+                <div >Wind</div>
+                <div >Wind</div>
+                <div >Wind</div>
+                <div >Wind</div>
+                <div >Wind</div>
+                <div >Wind</div>
+                <div >Wind</div>
+            </div>
+
+            </section>
+           
         <section>
             
         </section>
