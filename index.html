@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel ="stylesheet" href="styles/style1.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Now</title>
+
+<link rel="stylesheet" href="styles/style1.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
+
     <header>
         <nav>
             <p class="logo">Weather Now</p>
+
             <select class="units">
                 <option>Units</option>
                 <option>Celsius</option>
@@ -22,74 +29,108 @@
 
         </nav>
     </header>
+
     <main>
-        <section id="principal">
-            <h1> How's the sky looking today?</h1>
-        </section>
-        <section class="procurar">
-            <form action="">
-                <input type="search" id="busca" name="q" placeholder="Faça uma pesquisa..." required>
-                <button type="submit">Pesquisar</button>
-            </form>
-        </section>
-        <section class="container"></section>
-    
-        <section >
-            <div>Feels Like</div>
-            <div>Humidity</div>
-            <div>Wind</div>
-            <div>Precipitation</div>
-        </section>
-        <section id="yes">
-            <div>
-                <p>Daily forecast</p>
-           
-            <div class="ladoesquerdo">
 
-                <div class="caixinha">
+        <h1>How’s the sky looking today?</h1>
 
-                    <div class="climainfo">
+        <div class="search">
 
-                        <h2>Berlin, Germany</h2>
+            <input type="search" placeholder="Search for a place...">
 
-                        <p>Tuesday, Aug 5, 2025</p>
+            <button>Search</button>
 
-                    </div>
-            </div>
-             <div class="temperature">
-        ☀ 20°
-            </div>
+        </div>
+
+        <div class="layout">
+
+            <div class="card-main">
+
+                <div>
+                    <h2>Berlin, Germany</h2>
+                    <p>Tuesday, Aug 5, 2025</p>
+                </div>
+
+                <div class="temperature">
+                    20°
+                </div>
 
             </div>
 
-            
-             <div>
-                <p>Hourly forecast</p>
-                <select class="units">
-                    <option value="opcao1">Tuesday</option>
-                    <option value="opcao7">Monday</option>
-                    <option value="opcao2">Wednesday</option>
-                    <option value="opcao3">Thursday</option>
-                    <option value="opcao4">Friday</option>
-                    <option value="opcao5">Saturday</option>
-                    <option value="opcao6">Sunday</option>
-                </select>
-            </div>
-            <div class="wind">
-                <div >Wind</div>
-                <div >Wind</div>
-                <div >Wind</div>
-                <div >Wind</div>
-                <div >Wind</div>
-                <div >Wind</div>
-                <div >Wind</div>
+            <div class="stats">
+
+                <div class="box">
+                    <p>Feels Like</p>
+                    <h3>18°</h3>
+                </div>
+
+                <div class="box">
+                    <p>Humidity</p>
+                    <h3>46%</h3>
+                </div>
+
+                <div class="box">
+                    <p>Wind</p>
+                    <h3>14 km/h</h3>
+                </div>
+
+                <div class="box">
+                    <p>Precipitation</p>
+                    <h3>0 mm</h3>
+                </div>
+
             </div>
 
-            </section>
-           
-        <section>
-            
-        </section>
-    </main>    
+            <div class="daily">
+
+                <h3>Daily forecast</h3>
+
+                <div class="days">
+
+                    <div class="day">Tue<br>🌧<br>20°</div>
+                    <div class="day">Wed<br>🌧<br>21°</div>
+                    <div class="day">Thu<br>☀<br>24°</div>
+                    <div class="day">Fri<br>⛅<br>25°</div>
+                    <div class="day">Sat<br>⛈<br>21°</div>
+                    <div class="day">Sun<br>🌧<br>25°</div>
+                    <div class="day">Mon<br>🌫<br>24°</div>
+
+                </div>
+
+            </div>
+
+            <div class="hourly">
+
+                <div class="hourly-header">
+
+                    <h3>Hourly forecast</h3>
+
+                    <select>
+                        <option>Tuesday</option>
+                        <option>Monday</option>
+                        <option>Wednesday</option>
+                        <option>Thursday</option>
+                        <option>Friday</option>
+                        <option>Saturday</option>
+                        <option>Sunday</option>
+                    </select>
+
+                </div>
+
+                <div class="hour">3 PM ☁ 20°</div>
+                <div class="hour">4 PM ☁ 20°</div>
+                <div class="hour">5 PM ☀ 20°</div>
+                <div class="hour">6 PM ☁ 19°</div>
+                <div class="hour">7 PM 🌧 18°</div>
+                <div class="hour">8 PM 🌫 18°</div>
+                <div class="hour">9 PM ☁ 17°</div>
+                <div class="hour">10 PM ☁ 17°</div>
+
+            </div>
+
+        </div>
+
+    </main>
+
 </body>
 </html>
