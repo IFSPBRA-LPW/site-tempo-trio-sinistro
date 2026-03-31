@@ -1,75 +1,84 @@
+import { getCityWeather } from "./data.js"
 
 function renderBannerInfo(data) {
 
-    const nameCity = document.querySelector(".card-main h2")
-    const date = document.querySelector(".card-main p")
+    const weather_header = document.querySelector(".weather-header")
+    const nameCity = weather_header.querySelector("h3")
+    const date = document.querySelector(".date")
     const temperature = document.querySelector(".temperature")
 
-    nameCity.textContent = `${data.city}, ${data.country}`
+
+
+    nameCity.textContent = `${data.city} , ${data.country}`
     date.textContent = data.date
     temperature.textContent = `${data.temperature}°`
+
 }
+
 
 function renderDayInfo(data){
+    const weatherCard_Temperature = document.querySelector(".weatherCard_Temperature")
+    const weatherCard_Humidity = document.querySelector(".weatherCard_Humidity")
+    const weatherCard_Wind = document.querySelector(".weatherCard_Wind")
+    const weatherCard_Precipitation = document.querySelector(".weatherCard_Precipitation")
 
-    const boxes = document.querySelectorAll(".stats .box")
-
-    const feelsLike = boxes[0].querySelector("h3")
-    const humidity = boxes[1].querySelector("h3")
-    const wind = boxes[2].querySelector("h3")
-    const precipitation = boxes[3].querySelector("h3")
-
-    feelsLike.textContent = `${data.feelsLike}°`
-    humidity.textContent = `${data.humidity}%`
-    wind.textContent = `${data.wind} km/h`
-    precipitation.textContent = `${data.precipitation} mm`
+    weatherCard_Temperature.textContent = `${data.feelsLike}°`
+    weatherCard_Humidity.textContent = `${data.humidity}%`
+    weatherCard_Wind.textContent = `${data.wind}km/h`
+    weatherCard_Precipitation.textContent = `${data.precipitation}mm`
 }
 
-function renderDaily(data) {
 
-    const daysContainer = document.querySelector(".days")
-    daysContainer.innerHTML = ""
-
-    data.daily.forEach((day) => {
-
-        const div = document.createElement("div")
-        div.className = "day"
-
-        div.innerHTML = `
-            ${day.day}<br>
-            ${day.icon}<br>
-            ${day.max}°
+function renderDaily(dailyData) {
+    const dailyContainer = document.querySelector(".daily")
+    dailyContainer.innerHTML = ""
+    
+    dailyData.daily.forEach((day) => {
+        const li = document.createElement("li")
+        li.className = "dailyCard"
+        li.innerHTML = `
+            <p class="day-name">${day.day}</p>
+            <img src="https:${day.icon}" alt="Ícone do clima" class="day-icon">
+            <p class="day-max">${day.max}°</p>
+            <p class="day-min">${day.min}°</p>
         `
-
-        daysContainer.appendChild(div)
+        dailyContainer.appendChild(li)
     })
 }
 
-function renderHourly(data){
-
+function renderHourly(hourlyData){
     const hourlyContainer = document.querySelector(".hourly")
-
-    const oldHours = hourlyContainer.querySelectorAll(".hour")
-    oldHours.forEach(hour => hour.remove())
-
-    data.hourly.forEach((hour) => {
-
-        const div = document.createElement("div")
-        div.className = "hour"
-
-        div.innerHTML = `${hour.time} ☁ ${hour.temp}°`
-
-        hourlyContainer.appendChild(div)
+    hourlyData.hourly.forEach((hour) => {
+        const li = document.createElement("li")
+        li.className = "hourlyCard"
+        li.innerHTML = `
+            <p class="hour-time">${hour.time}</p>
+            <p class="hour-temp">${hour.temp}°</p>
+        `
+        hourlyContainer.appendChild(li)
     })
+
 }
 
 function orquestradora(cityWeather){
-
     renderBannerInfo(cityWeather)
     renderDayInfo(cityWeather)
     renderDaily(cityWeather)
     renderHourly(cityWeather)
-
 }
 
-orquestradora(cityWeather)
+const form = document.querySelector(".search")
+form.addEventListener("submit", async (e) => {
+    e.preventDefault()
+    const city = document.querySelector("#busca").value
+    try {
+        const weatherData = await getCityWeather(city)
+        orquestradora(weatherData)
+        document.querySelector("#busca").value = ""
+    } catch (error) {
+        alert("Cidade não encontrada!")
+    }
+})
+
+
+getCityWeather("Extrema").then(data => orquestradora(data)).catch(() => alert("Erro ao carregar dados iniciais"))
