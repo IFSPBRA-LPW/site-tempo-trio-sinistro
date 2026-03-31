@@ -60,10 +60,25 @@ cursor:pointer;
 margin-top:40px;
 display:grid;
 grid-template-columns:2fr 1fr;
+grid-template-areas: "main hourly" "stats hourly" "daily hourly";
 gap:30px;
 }
 
+.card-main{
+    grid-area: main;
+}
 
+.stats{
+    grid-area: stats;
+}
+
+.daily{
+    grid-area: daily;
+}
+
+.hourly{
+    grid-area: hourly;
+}
 
 .card-main{
 background:linear-gradient(135deg,#5c6cff,#6f7bff);
@@ -133,4 +148,14 @@ margin-bottom:20px;
 .hour{
 padding:10px;
 border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.hourly select{
+    background:#8085be;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    outline:none;
 }

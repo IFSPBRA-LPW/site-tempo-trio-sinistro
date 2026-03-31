@@ -1,84 +1,148 @@
-import { getCityWeather } from "./data.js"
+import { API_KEY } from "./config.js";
+
+async function fetchWeather(city) {
+    const response = await fetch(
+        `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=7&lang=pt`
+    );
+
+    if (!response.ok) {
+        throw new Error("Erro ao buscar dados da API");
+    }
+
+    return response.json();
+}
+
+function adaptData(data) {
+    return {
+        city: data.location.name,
+        country: data.location.country,
+        date: data.location.localtime,
+
+        temperature: Math.round(data.current.temp_c),
+        feelsLike: Math.round(data.current.feelslike_c),
+        humidity: data.current.humidity,
+        wind: data.current.wind_kph,
+        precipitation: data.current.precip_mm,
+
+        daily: data.forecast.forecastday.map(day => ({
+            day: new Date(day.date).toLocaleDateString("en-US", { weekday: "short" }),
+            icon: "☁",
+            max: Math.round(day.day.maxtemp_c),
+            min: Math.round(day.day.mintemp_c),
+        })),
+
+        hourly: data.forecast.forecastday[0].hour.map(hour => ({
+            time: hour.time.split(" ")[1],
+            temp: Math.round(hour.temp_c),
+        }))
+    };
+}
+
+async function loadWeather(city) {
+    try {
+        console.log("Buscando cidade:", city);
+
+        const data = await fetchWeather(city);
+        console.log("RESPOSTA API:", data);
+
+        const adapted = adaptData(data);
+
+        orquestradora(adapted);
+
+        localStorage.setItem("lastCity", city);
+
+    } catch (error) {
+        console.error(error);
+        alert("Cidade não encontrada 😢");
+    }
+}
+
+const input = document.querySelector(".search input");
+const button = document.querySelector(".search button");
+
+button.addEventListener("click", () => {
+    const city = input.value;
+
+    if (city) {
+        loadWeather(city);
+    }
+});
+
+window.addEventListener("load", () => {
+    const lastCity = localStorage.getItem("lastCity") || "São Paulo";
+    loadWeather(lastCity);
+});
+
 
 function renderBannerInfo(data) {
 
-    const weather_header = document.querySelector(".weather-header")
-    const nameCity = weather_header.querySelector("h3")
-    const date = document.querySelector(".date")
+    const nameCity = document.querySelector(".card-main h2")
+    const date = document.querySelector(".card-main p")
     const temperature = document.querySelector(".temperature")
 
-
-
-    nameCity.textContent = `${data.city} , ${data.country}`
+    nameCity.textContent = `${data.city}, ${data.country}`
     date.textContent = data.date
     temperature.textContent = `${data.temperature}°`
-
 }
-
 
 function renderDayInfo(data){
-    const weatherCard_Temperature = document.querySelector(".weatherCard_Temperature")
-    const weatherCard_Humidity = document.querySelector(".weatherCard_Humidity")
-    const weatherCard_Wind = document.querySelector(".weatherCard_Wind")
-    const weatherCard_Precipitation = document.querySelector(".weatherCard_Precipitation")
 
-    weatherCard_Temperature.textContent = `${data.feelsLike}°`
-    weatherCard_Humidity.textContent = `${data.humidity}%`
-    weatherCard_Wind.textContent = `${data.wind}km/h`
-    weatherCard_Precipitation.textContent = `${data.precipitation}mm`
+    const boxes = document.querySelectorAll(".stats .box")
+
+    const feelsLike = boxes[0].querySelector("h3")
+    const humidity = boxes[1].querySelector("h3")
+    const wind = boxes[2].querySelector("h3")
+    const precipitation = boxes[3].querySelector("h3")
+
+    feelsLike.textContent = `${data.feelsLike}°`
+    humidity.textContent = `${data.humidity}%`
+    wind.textContent = `${data.wind} km/h`
+    precipitation.textContent = `${data.precipitation} mm`
 }
 
+function renderDaily(data) {
 
-function renderDaily(dailyData) {
-    const dailyContainer = document.querySelector(".daily")
-    dailyContainer.innerHTML = ""
-    
-    dailyData.daily.forEach((day) => {
-        const li = document.createElement("li")
-        li.className = "dailyCard"
-        li.innerHTML = `
-            <p class="day-name">${day.day}</p>
-            <img src="https:${day.icon}" alt="Ícone do clima" class="day-icon">
-            <p class="day-max">${day.max}°</p>
-            <p class="day-min">${day.min}°</p>
+    const daysContainer = document.querySelector(".days")
+    daysContainer.innerHTML = ""
+
+    data.daily.forEach((day) => {
+
+        const div = document.createElement("div")
+        div.className = "day"
+
+        div.innerHTML = `
+            ${day.day}<br>
+            ${day.icon}<br>
+            ${day.max}°
         `
-        dailyContainer.appendChild(li)
+
+        daysContainer.appendChild(div)
     })
 }
 
-function renderHourly(hourlyData){
+function renderHourly(data){
+
     const hourlyContainer = document.querySelector(".hourly")
-    hourlyData.hourly.forEach((hour) => {
-        const li = document.createElement("li")
-        li.className = "hourlyCard"
-        li.innerHTML = `
-            <p class="hour-time">${hour.time}</p>
-            <p class="hour-temp">${hour.temp}°</p>
-        `
-        hourlyContainer.appendChild(li)
-    })
 
+    const oldHours = hourlyContainer.querySelectorAll(".hour")
+    oldHours.forEach(hour => hour.remove())
+
+    data.hourly.forEach((hour) => {
+
+        const div = document.createElement("div")
+        div.className = "hour"
+
+        div.innerHTML = `${hour.time} ☁ ${hour.temp}°`
+
+        hourlyContainer.appendChild(div)
+    })
 }
 
 function orquestradora(cityWeather){
+
     renderBannerInfo(cityWeather)
     renderDayInfo(cityWeather)
     renderDaily(cityWeather)
     renderHourly(cityWeather)
+
 }
-
-const form = document.querySelector(".search")
-form.addEventListener("submit", async (e) => {
-    e.preventDefault()
-    const city = document.querySelector("#busca").value
-    try {
-        const weatherData = await getCityWeather(city)
-        orquestradora(weatherData)
-        document.querySelector("#busca").value = ""
-    } catch (error) {
-        alert("Cidade não encontrada!")
-    }
-})
-
-
-getCityWeather("Extrema").then(data => orquestradora(data)).catch(() => alert("Erro ao carregar dados iniciais"))
